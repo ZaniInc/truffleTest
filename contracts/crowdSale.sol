@@ -25,6 +25,7 @@ contract crowdSale is KYC  {
         _rate = rate;
         _wallet = wallet;
         _token = token;
+        owner = msg.sender;
     }
 
     receive()external payable {
