@@ -1,4 +1,4 @@
-const MyToken = artifacts.require("./MyToken.sol");
+const MyToken = artifacts.require("./MyToken");
 
 const chai = require("./setupchai.js");
 const BN = web3.utils.BN;
@@ -11,30 +11,23 @@ contract("ERC20", accounts => {
 
   const [owner,acc2,acc3] = accounts;
 
-  it("check balances", async () => {
-    // const simpleStorageInstance = await SimpleStorage.deployed();
-
-    // Set value of 89
-    // await .set(89, { from: accounts[0] });
-
+  it("check balances must have 0 tokens", async () => {
 
     let instance = await MyToken.deployed();
-    const balanceOff = await instance.balanceOf(owner);
-    console.log("balance befora mint",balanceOff);
+    let balanceOff = await instance.balanceOf(owner);
+    let totalsupply = await instance.totalSupply();
+    expect(balanceOff).to.be.a.bignumber.eq(new BN(0));
 
-    let mint = await instance.testMint(owner,46);
-    const balanceOfff = await instance.balanceOf(owner);
-    console.log("balance after mint",balanceOfff);
   });
 
-  it("should send tokens.", async () => {
+  it("should send tokens between 2 accounts", async () => {
+    const amountTokens = 1;
     let instance = await MyToken.deployed();
     const totalsupply = await instance.totalSupply();
-    console.log("balance after mint",totalsupply);
+    expect(instance.transfer(acc2,amountTokens)).to.eventually.be.fulfilled;
+    expect(instance.balanceOf(owner)).to.eventually.be.a.bignumber.equal(totalsupply.sub(new BN(amountTokens)));
+    expect(instance.balanceOf(acc2)).to.eventually.be.a.bignumber.equal(new BN(amountTokens));
 
-    let approve = await instance.approve(acc2 , 100);
-    expect(approve).to.be.eq(true);
-    
   });
 
 

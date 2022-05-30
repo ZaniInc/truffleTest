@@ -1,4 +1,7 @@
 const path = require("path");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+require("dotenv").config({path: "./.env"});
+const AccountIndex = 0;
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -7,17 +10,17 @@ module.exports = {
   networks: {
     develop: {
       port: 8545
+    },
+    ropsten_infura : {
+      provider : function () {
+        return new HDWalletProvider(process.env.MNEMONIC,"https://ropsten.infura.io/v3/23b0f66c3c2b4d77ad961d2f97c04e44",AccountIndex);
+      },
+      network_id: 3
     }
   },
   compilers : {
     solc : {
       version :"0.8.7"
   }
-  },
-  ropsten_network : {
-    provider : function () {
-      return new HDWalletProvider("https://ropsten.infura.io/v3/23b0f66c3c2b4d77ad961d2f97c04e44");
-    },
-    network_id: 3
   }
 };

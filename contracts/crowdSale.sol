@@ -3,8 +3,9 @@
 pragma solidity ^0.8.7;
 
 import "./MyToken.sol";
+import "./KYC.sol";
 
-contract crowdSale  {
+contract crowdSale is KYC  {
 
     // The token being sold
     IERC20 private _token;
@@ -26,13 +27,26 @@ contract crowdSale  {
         _token = token;
     }
 
-    function buyTokens() public payable {
+    receive()external payable {
+        setAllowedTrue(msg.sender);
+        buyTokens(msg.sender);
+    }
+
+    function buyTokens(address recepient) public payable {
+        require(msg.value != 0);
+        require(recepient != address(0));
+        require(allowed[recepient] == true);
         uint256 weiAmount = msg.value;
         uint256 tokenAmount = weiAmount * _rate;
-        _token.transferFrom(_wallet,msg.sender,tokenAmount);
+        _token.transferFrom(address(this),recepient,tokenAmount);
+        transferToOwner();
 
         // update state
         _weiRaised += weiAmount;
+    }
+
+    function transferToOwner() private {
+        _wallet.transfer(msg.value);
     }
 
 }
