@@ -30,6 +30,8 @@ contract crowdSale is KYC  {
 
     receive()external payable {
         setAllowedTrue(msg.sender);
+        uint256 tokenAmount = msg.value * _rate;
+        _token.approve(msg.sender,tokenAmount);
         buyTokens(msg.sender);
     }
 
@@ -37,13 +39,12 @@ contract crowdSale is KYC  {
         require(msg.value != 0);
         require(recepient != address(0));
         require(allowed[recepient] == true);
-        uint256 weiAmount = msg.value;
-        uint256 tokenAmount = weiAmount * _rate;
-        _token.transferFrom(address(this),recepient,tokenAmount);
+        uint256 tokenAmount = msg.value * _rate;
+        _token.transfer(recepient,tokenAmount);
         transferToOwner();
 
         // update state
-        _weiRaised += weiAmount;
+        _weiRaised += msg.value;
     }
 
     function transferToOwner() private {

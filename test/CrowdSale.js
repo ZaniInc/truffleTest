@@ -30,8 +30,8 @@ contract("CrowdSale", accounts => {
     it("Transfer tokens", async () => {
         let instanceToken = await MyToken.deployed();
         let instanceCrowdSale = await crowdSale.deployed();
-        expect(await instanceCrowdSale.sendTransaction({from:owner,value:web3.utils.toWei("1","wei")})).to.be.fulfilled;
-        expect(await instanceToken.balanceOf(owner)).to.be.eq(new BN(1));
+        let transfer = await instanceCrowdSale.sendTransaction({from: owner,value: web3.utils.toWei("1","wei")})
+        expect(await instanceToken.balanceOf(owner)).to.be.a.bignumber.eq(new BN(1));
     });
 
 });
