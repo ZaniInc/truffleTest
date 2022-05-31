@@ -15,19 +15,19 @@ module.exports = {
     },
     ganache_local : {
       provider : function () {
-        return new HDWalletProvider(process.env.MNEMONIC,"HTTP://127.0.0.1:7545" , AccountIndex);
+        return new HDWalletProvider(process.env.MNEMONIC,"ganache rpc" , AccountIndex);
       },
       network_id: 5777
     },
     goerli_infura : {
       provider : function () {
-        return new HDWalletProvider(process.env.MNEMONIC,"https://goerli.infura.io/v3/23b0f66c3c2b4d77ad961d2f97c04e44", AccountIndex);
+        return new HDWalletProvider(process.env.MNEMONIC,"goerli rpc", AccountIndex);
       },
       network_id: 5
     },
     ropsten_infura : {
       provider : function () {
-        return new HDWalletProvider(process.env.MNEMONIC,"wss://ropsten.infura.io/ws/v3/23b0f66c3c2b4d77ad961d2f97c04e44",AccountIndex);
+        return new HDWalletProvider(process.env.MNEMONIC,"ropsten rpc",AccountIndex);
       },
       network_id: 3
     }
