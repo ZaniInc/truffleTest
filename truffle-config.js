@@ -13,9 +13,21 @@ module.exports = {
       host: "127.0.0.1",
       network_id:5777
     },
+    ganache_local : {
+      provider : function () {
+        return new HDWalletProvider(process.env.MNEMONIC,"HTTP://127.0.0.1:7545" , AccountIndex);
+      },
+      network_id: 5777
+    },
+    goerli_infura : {
+      provider : function () {
+        return new HDWalletProvider(process.env.MNEMONIC,"https://goerli.infura.io/v3/23b0f66c3c2b4d77ad961d2f97c04e44", AccountIndex);
+      },
+      network_id: 5
+    },
     ropsten_infura : {
       provider : function () {
-        return new HDWalletProvider(process.env.MNEMONIC,"https://ropsten.infura.io/v3/23b0f66c3c2b4d77ad961d2f97c04e44",AccountIndex);
+        return new HDWalletProvider(process.env.MNEMONIC,"wss://ropsten.infura.io/ws/v3/23b0f66c3c2b4d77ad961d2f97c04e44",AccountIndex);
       },
       network_id: 3
     }

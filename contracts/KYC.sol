@@ -7,12 +7,16 @@ contract KYC {
     mapping(address=>bool)allowed;
     address owner;
 
+    constructor () {
+        owner = msg.sender;
+    }
+
     modifier onlyOwner () {
         require(msg.sender == owner , "you not owner");
         _;
     }
 
-    function setAllowedTrue(address _addr)internal onlyOwner{
+    function setAllowedTrue(address _addr)public onlyOwner{
         allowed[_addr] = true;
     }
 
